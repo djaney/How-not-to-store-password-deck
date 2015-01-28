@@ -41,26 +41,29 @@
 		</section>
 
 		<section class="slide">
-			<h1>Store password as a last resort</h1>
+			<h1>Passwords are a bad idea</h1>
 		</section>
-
 		<section class="slide">
-			<h2>You are not safe</h2>
+			<h1>Storing passwords is worse</h1>
+		</section>
+		<section class="slide">
+			<h2>Databases can be stolen</h2>
 			<p>
 				<img src="img/hack1.png" />
 				<img src="img/hack2.png" />
+				<h2 class="slide">Along with your passwords</h2>
 			</p>
 		</section>
 
 
 
 		<section class="slide">
-			<h2>The naive way #1 - storing plain text passwords in the database</h2>
+			<h2>The naive way #1 - storing plaintexts</h2>
 			<h3>Register</h3>
 			<pre>
 user = User()
 user.email = 'someguy@example.com'
-user.password = 'qwer1234'
+user.password = '123456789'
 user.save()
 			</pre>
 			<h3>Login</h3>
@@ -79,7 +82,7 @@ else
 
 					<tr>
 						<td>someguy@example.com</td>
-						<td>qwer1234</td>
+						<td>123456789</td>
 					</tr>
 					<tr>
 						<td>...</td>
@@ -98,7 +101,7 @@ else
 key = 'secret'
 user = User()
 user.email = 'someguy@example.com'
-user.password = encrypt(key,'qwer1234')
+user.password = encrypt(key,'password')
 user.save()
 			</pre>
 			<h3>Login</h3>
@@ -146,22 +149,22 @@ else
 
 					<tr>
 						<td>michael@example.com</td>
-						<td>O2jxMx3eyqE=</td>
+						<td>O2jxkdiwkkqE=</td>
 						<td>Song</td>
 					</tr>
 					<tr>
 						<td>sam@example.com</td>
-						<td>O2jxMx3eyqE=</td>
+						<td>O2jxkdiwkkqE=</td>
 						<td>Michael Jackson</td>
 					</tr>
 					<tr>
 						<td>bob@example.com</td>
-						<td>O2jxMx3eyqE=</td>
+						<td>O2jxkdiwkkqE=</td>
 						<td>Horror</td>
 					</tr>
 					<tr>
 						<td>steve@example.com</td>
-						<td>O2jxMx3eyqE=</td>
+						<td>O2jxkdiwkkqE=</td>
 						<td>Scary michael</td>
 					</tr>
 				</table>
@@ -173,7 +176,7 @@ else
 			<pre>
 user = User()
 user.email = 'someguy@example.com'
-user.password = hash('qwer1234')
+user.password = hash('123456789')
 user.save()
 			</pre>
 			<h3>Login</h3>
@@ -206,9 +209,9 @@ else
 		<section class="slide">
 			<h2>Problems</h2>
 			<ol>
-				<li class="slide">can be cracked using brute force</li>
-				<li class="slide">can be cracked using hash tables/rainbow tables</li>
-				<li class="slide">identical password will have the same hash</li>
+				<li class="slide">identical passwords will have the same hash</li>
+				<li class="slide">database of plaintext-hash pair</li>
+				<li class="slide">rainbow tables</li>
 			</ol>
 		</section>
 
@@ -256,18 +259,23 @@ else
 			<h2>Pros</h2>
 			<ol>
 				<li class="slide">you cannot decrypt it</li>
-				<li class="slide">same passwords have different hashes
-					<ul>
-						<li class="slide">Cannot be guessed</li>
-						<li class="slide">Cannot reverse using hash/rainbow tables</li>
-					</ul>
-				</li>
+				<li class="slide">same passwords have different hashes</li>
 				
 			</ol>
 		</section>
 
 		<section class="slide">
-			<h1>Thank you</h1>
+			<h2>Summary</h2>
+			<ul>
+				<li>plaintext is bad</li>
+				<li>encryption is bad</li>
+				<li>hash is bad</li>
+				<li>hash + salt is kinda better</li>
+			</ul>
+		</section>
+
+		<section class="slide">
+			<h1>Thank you!</h1>
 		</section>
 
 		<!-- End slides. -->
