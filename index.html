@@ -5,7 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=1024, user-scalable=no">
 
-	<title>HTML5 &amp; CSS3</title>
+	<title>Presentation</title>
 
 	<!-- Required stylesheet -->
 	<link rel="stylesheet" media="screen" href="core/deck.core.css">
@@ -26,6 +26,8 @@
 	<!-- Basic black and white print styles -->
 	<link rel="stylesheet" media="print" href="core/print.css">
 
+	<link rel="stylesheet" media="screen" href="style.css">
+
 	<!-- Required Modernizr file -->
 	<script src="modernizr.custom.js"></script>
 </head>
@@ -34,615 +36,238 @@
 
 		<!-- Begin slides. Just make elements with a class of slide. -->
 
-
-
-
-
-
 		<section class="slide">
-			<h1>
-				HTML 5 and CSS 3
-				<img src="img/html5.jpg">
-			</h1>
-
-			
+			<h1>How "not" to store passwords</h1>
 		</section>
 
 		<section class="slide">
-			<h1><span style="color:red">HTML</span>5</h1>
+			<h1>Store password as a last resort</h1>
 		</section>
 
 		<section class="slide">
-			<h1 style="text-align:left">
-				<span style="color:red">H</span>yper<br>
-				<span style="color:red">T</span>ext<br>
-				<span style="color:red">M</span>arkup<br>
-				<span style="color:red">L</span>anguage<br>
-			</h1>
-			<h1 class="slide" style="position: absolute;top: 50%;text-align: right;font-size: 20em;color: red;">5</h1>
+			<h2>You are not safe</h2>
+			<p>
+				<img src="img/hack1.png" />
+				<img src="img/hack2.png" />
+			</p>
 		</section>
 
 
-		<section class="slide">
-			<h2>This is a webpage</h2>
-			<img src="img/webpage.png">
-		</section>
-		<section class="slide">
-			<h2>This is the HTML code</h2>
-			<img src="img/crazy_cat.png">
-		</section>
-
 
 		<section class="slide">
-			<h2>Changes over 20+ years!</h2>
-			<ul>
-				<li>1991 - HTML</li>
-				<li>1994 - HTML 2</li>
-				<li>1996 - CSS 1 + JavaScript</li>
-				<li>1997 - HTML 4</li>
-				<li>1998 - CSS 2</li>
-				<li style="color:red">2000 - XHTML 1</li>
-				<li>2002 - Tableless Web Design</li>
-				<li>2005 - AJAX</li>
-				<li>2009 - HTML 5</li>
-			</ul>
-		</section>
-
-		<section class="slide">
-			<h1>So, is it okay to use HTML5?</h1>
-		</section>
-
-		<section class="slide">
-			<h2>Yes and No</h2>
-			<h3>Websites</h3>
-			<ul>
-				<li>It depends on the browsers you want to support</li>
-			</ul>
-			<h3>Game Development</h3>
-			<ul>
-				<li>Yes - only works for modern browsers</li>
-			</ul>
-			<h3>Mobile Development</h3>
-			<ul>
-				<li>Yes - using hybrid frameworks</li>
-			</ul>
-		</section>
-
-		<section class="slide">
-			<h2>Features</h2>
-			<ul>
-				<li class="slide">Offline Storage</li>
-				<li class="slide">Realtime Communication</li>
-				<li class="slide">File / Hardware Access</li>
-				<li class="slide">Semantics &amp; Markup</li>
-				<li class="slide">Graphics &amp; Multimedia</li>
-				<li class="slide">CSS 3</li>
-			</ul>
-		</section>
-
-		<section class="slide">
-			<h1>Offline Storage</h1>
-		</section>
-
-		<section class="slide">
-			<h2>Web Storage</h2>
+			<h2>The naive way #1 - storing plain text passwords in the database</h2>
+			<h3>Register</h3>
 			<pre>
-window.document.getElementById('local-storage-val').innerHTML = window.localStorage.getItem('value');
-var webSave = function(){
-	var input = window.document.getElementById('local-storage-inp');
-	var container = window.document.getElementById('local-storage-val');
-	<strong>window.localStorage.setItem('value', input.value);</strong>
-	<strong>container.innerHTML = window.localStorage.getItem('value');</strong>
-}
+user = User()
+user.email = 'someguy@example.com'
+user.password = 'qwer1234'
+user.save()
+			</pre>
+			<h3>Login</h3>
+			<pre>
+if user.password == passwordInput
+    return True
+else
+    return False
 			</pre>
 			<p>
-				Value: <strong id="local-storage-val"></strong>
+				<table class="table">
+					<tr>
+						<th>Email</th>
+						<th>Password</th>
+					</tr>
+
+					<tr>
+						<td>someguy@example.com</td>
+						<td>qwer1234</td>
+					</tr>
+					<tr>
+						<td>...</td>
+						<td>...</td>
+					</tr>
+				</table>
 			</p>
-			<input type="text" id="local-storage-inp">
-			<button type="button" onclick="webSave()">Save</button>
-			<script type="text/javascript">
-				window.document.getElementById('local-storage-val').innerHTML = window.localStorage.getItem('value');
-				var webSave = function(){
-					var input = window.document.getElementById('local-storage-inp');
-					var container = window.document.getElementById('local-storage-val');
-					window.localStorage.setItem('value', input.value);
-					container.innerHTML = window.localStorage.getItem('value');
-				}
-			</script>
+
 		</section>
 
+
 		<section class="slide">
-			<h2>Web SQL Database</h2>
+			<h2>The naive way #2 - Encrypting</h2>
+			<h3>Register</h3>
 			<pre>
-var db = window.openDatabase("DBName", "1.0", "description", 5*1024*1024); //5MB
-db.transaction(function(tx) {
-  tx.executeSql("SELECT * FROM test", [], successCallback, errorCallback);
-});
+key = 'secret'
+user = User()
+user.email = 'someguy@example.com'
+user.password = encrypt(key,'qwer1234')
+user.save()
 			</pre>
-		</section>
-
-		<section class="slide">
-			<h1>Realtime Communication</h1>
-		</section>
-		<section class="slide">
-			<h2>WebSocket</h2>
-			<h3>Create TRUE realtime</h3>
-			<p>WebSocket is a protocol providing full-duplex communications channels over a single TCP connection.</p>
-			<img src="img/http-versus-html5ws_2.png">
-			<p>
-				<a target="_blank" href="http://chat.codertalks.com/">Demo</a><br>
-				<a target="_blank" href="https://github.com/djaney/hash-chat">Source</a>
-			</p>
-		</section>
-
-		<section class="slide">
-			<h1>File / Hardware Access</h1>
-
-		</section>
-
-		<section class="slide">
-			<h2>Native Drag-drop</h2>
-			<h3>Create drag-drop interface without using libraries</h3>
+			<h3>Login</h3>
 			<pre>
-document.addEventListener('dragstart', function(event) {
-	event.dataTransfer.setData('text', 'Customized text');
-	event.dataTransfer.effectAllowed = 'copy';
-}, false);
-			</pre>
-			<a target="_blank" href="http://html5demos.com/drag">Demo</a>
-		</section>
-
-		<section class="slide">
-			<h2>Desktop Drag-In (File API)</h2>
-			<h3>Drag files from your desktop to your browser</h3>
-			<pre>
-document.querySelector('#dropzone').addEventListener('drop', function(e) {
-	var reader = new FileReader();
-	reader.onload = function(evt) {
-		document.querySelector('img').src = evt.target.result;
-	};
-
-	reader.readAsDataURL(e.dataTransfer.files[0]);
-}, false);
-			</pre>
-			<a href="http://html5demos.com/file-api" target="_blank">Demo</a>
-		</section>
-
-		<section class="slide">
-			<h2>Geolocation</h2>
-			<pre>
-if (navigator.geolocation) {
-	navigator.geolocation.getCurrentPosition(function(position) {
-		var latLng = new google.maps.LatLng(
-			position.coords.latitude, position.coords.longitude);
-		var marker = new google.maps.Marker({position: latLng, map: map});
-		map.setCenter(latLng);
-	}, errorHandler);
-}
-			</pre>
-			<a href="http://html5demos.com/geo" target="_blank">Demo</a>
-		</section>
-
-		<section class="slide">
-			<h1>Semantics &amp; Markup</h1>
-		</section>
-
-		<section class="slide">
-			<h2>Better semantic tags</h2>
-			<pre>
-&#x3C;body&#x3E;
-  &#x3C;div class=&#x22;navigation&#x22;&#x3E;
-   &#x3C;ul &#x3E;
-    ...
-   &#x3C;/ul&#x3E;
-  &#x3C;/div&#x3E;
-  &#x3C;div class=&#x22;article&#x22;&#x3E;
-    &#x3C;p&#x3E;
-      &#x3C;ul&#x3E;
-        ...
-      &#x3C;/ul&#x3E;
-    &#x3C;/p&#x3E;
-  &#x3C;/div&#x3E;
-&#x3C;/body&#x3E;
-			</pre>
-		</section>
-
-		<section class="slide">
-			<h2>Better semantic tags</h2>
-			<pre>
-&#x3C;body&#x3E;
-  &#x3C;div class=&#x22;navigatie&#x22;&#x3E;
-   &#x3C;ul &#x3E;
-    ...
-   &#x3C;/ul&#x3E;
-  &#x3C;/div&#x3E;
-  &#x3C;div class=&#x22;artikel&#x22;&#x3E;
-    &#x3C;p&#x3E;
-      &#x3C;ul&#x3E;
-        ...
-      &#x3C;/ul&#x3E;
-    &#x3C;/p&#x3E;
-  &#x3C;/div&#x3E;
-&#x3C;/body&#x3E;
-			</pre>
-		</section>
-
-		<section class="slide">
-			<h2>Better semantic tags</h2>
-			<pre>
-&#x3C;body&#x3E;
-  &#x3C;nav&#x3E;
-   &#x3C;ul&#x3E;
-    ...
-   &#x3C;/ul&#x3E;
-  &#x3C;/nav&#x3E;
-  &#x3C;section&#x3E;
-    &#x3C;article&#x3E;
-      &#x3C;ul&#x3E;
-        ...
-      &#x3C;/ul&#x3E;
-    &#x3C;/article&#x3E;
-  &#x3C;/section&#x3E;
-&#x3C;/body&#x3E;
-			</pre>
-
-
-		</section>
-
-		<section class="slide">
-			<h2>Markup for Applications</h2>
-			<h3>Datalist</h3>
-			<pre>
-&#x3C;input list=&#x22;cars&#x22;/&#x3E;
-&#x3C;datalist id=&#x22;cars&#x22;&#x3E;
-  &#x3C;option value=&#x22;BMW&#x22;/&#x3E;
-  &#x3C;option value=&#x22;Ford&#x22;/&#x3E;
-  &#x3C;option value=&#x22;Volvo&#x22;/&#x3E;
-&#x3C;/datalist&#x3E;
-			</pre>
-
-			<p>
-				Cars: 
-				<input list="cars"/>
-				<datalist id="cars">
-					<option value="BMW"/>
-					<option value="Ford"/>
-					<option value="Volvo"/>
-				</datalist>
-			</p>
-		</section>
-
-		<section class="slide">
-			<h2>Markup for Applications</h2>
-			<h3>Details and Summary</h3>
-			<pre>
-&#x3C;p&#x3E;
-  &#x3C;details&#x3E;
-    &#x3C;summary&#x3E;HTML 5&#x3C;/summary&#x3E;
-    Kumusta?
-  &#x3C;/details&#x3E;
-&#x3C;/p&#x3E;
-			</pre>
-
-			<p>
-				<details>
-					<summary>HTML 5</summary>
-					Kumusta?
-				</details>
-			</p>
-		</section>
-
-		<section class="slide">
-			<h2>Markup for Applications</h2>
-			<h3>Progressbars</h3>
-			<pre>
-&#x3C;meter min=&#x22;0&#x22; max=&#x22;100&#x22; low=&#x22;40&#x22; high=&#x22;90&#x22; optimum=&#x22;100&#x22; value=&#x22;91&#x22;&#x3E;A+&#x3C;/meter&#x3E;
-&#x3C;progress&#x3E;working...&#x3C;/progress&#x3E;
-&#x3C;progress value=&#x22;75&#x22; max=&#x22;100&#x22;&#x3E;3/4 complete&#x3C;/progress&#x3E;
-			</pre>
-
-			<p>
-				<meter min="0" max="100" low="40" high="90" optimum="100" value="91">A+</meter><br>
-				<progress>working...</progress><br>
-				<progress value="75" max="100">3/4 complete</progress>
-			</p>
-		</section>
-
-
-		<section class="slide">
-			<h2>Descriptive link relations</h2>
-			<pre>
-&#x3C;a href=&#x22;http://myblog.com/archives&#x22;&#x3E;old posts&#x3C;/a&#x3E;
-&#x3C;a href=&#x22;http://notmysite.com&#x22;&#x3E;tutorial&#x3C;/a&#x3E;
-&#x3C;a href=&#x22;http://www.apache.org/licenses/LICENSE-2.0&#x22;&#x3E;license&#x3C;/a&#x3E;
-
-			</pre>
-		</section>
-
-		<section class="slide">
-			<h2>Descriptive link relations</h2>
-			<pre>
-&#x3C;a rel=&#x22;archives&#x22; href=&#x22;http://myblog.com/archives&#x22;&#x3E;old posts&#x3C;/a&#x3E;
-&#x3C;a rel=&#x22;external&#x22; href=&#x22;http://notmysite.com&#x22;&#x3E;tutorial&#x3C;/a&#x3E;
-&#x3C;a rel=&#x22;license&#x22; href=&#x22;http://www.apache.org/licenses/LICENSE-2.0&#x22;&#x3E;license&#x3C;/a&#x3E;
-
-			</pre>
-		</section>
-
-		<section class="slide">
-			<h2>Form elements</h2>
-			<pre>
-&#x3C;input type=&#x22;text&#x22; required /&#x3E;
-<input type="text" required />
-
-&#x3C;input type=&#x22;email&#x22; value=&#x22;some@email.com&#x22; /&#x3E;
-<input type="email" value="some@email.com" />
-
-&#x3C;input type=&#x22;date&#x22; min=&#x22;2010-08-14&#x22; max=&#x22;2011-08-14&#x22; value=&#x22;2010-08-14&#x22;/&#x3E;
-<input type="date" min="2010-08-14" max="2011-08-14" value="2010-08-14"/>
-
-&#x3C;input type=&#x22;range&#x22; min=&#x22;0&#x22; max=&#x22;50&#x22; value=&#x22;10&#x22; /&#x3E;
-<input type="range" min="0" max="50" value="10" />
-
-&#x3C;input type=&#x22;search&#x22; results=&#x22;10&#x22; placeholder=&#x22;Search...&#x22; /&#x3E;
-<input type="search" results="10" placeholder="Search..." />
-
-&#x3C;input type=&#x22;tel&#x22;  placeholder=&#x22;(555) 555-5555&#x22; pattern=&#x22;^\(?\d{3}\)?[-\s]\d{3}[-\s]\d{4}.*?$&#x22; /&#x3E;
-<input type="tel"  placeholder="(555) 555-5555" pattern="^\(?\d{3}\)?[-\s]\d{3}[-\s]\d{4}.*?$" />
-
-&#x3C;input type=&#x22;color&#x22; placeholder=&#x22;e.g. #bbbbbb&#x22; /&#x3E;
-<input type="color" placeholder="e.g. #bbbbbb" />
-
-&#x3C;input type=&#x22;number&#x22; step=&#x22;1&#x22; min=&#x22;-5&#x22; max=&#x22;10&#x22; value=&#x22;0&#x22; /&#x3E;
-<input type="number" step="1" min="-5" max="10" value="0" />
-			</pre>
-			
-		</section>
-
-		<section class="slide">
-			<h1>Graphics and Multimedia</h1>
-		</section>
-
-		<section class="slide">
-			<h2>Audio + Video</h2>
-			<p>
-				<video src="img/syntactics.mp4" autoplay controls></video>
-				<audio id="audio" src="img/The_Engagement.mp3" controls></audio>
-			</p>
-		</section>
-
-
-		<section class="slide">
-			<h2>Canvas</h2>
-			<pre>
-&#x3C;canvas id=&#x22;canvas&#x22; width=&#x22;800&#x22; height=&#x22;600&#x22;&#x3E;&#x3C;/canvas&#x3E;
-&#x3C;script&#x3E;
-var canvasContext = document.getElementById(&#x22;canvas&#x22;).getContext(&#x22;2d&#x22;);
-canvasContext.fillRect(250, 25, 150, 100);
-
-canvasContext.beginPath();
-canvasContext.arc(450, 110, 100, Math.PI * 1/2, Math.PI * 3/2);
-canvasContext.lineWidth = 15;
-canvasContext.lineCap = &#x27;round&#x27;;
-canvasContext.strokeStyle = &#x27;rgba(255, 127, 0, 0.5)&#x27;;
-canvasContext.stroke();
-&#x3C;/script&#x3E;
+if decrypt(key,user.password) == passwordInput
+    return True
+else
+    return False
 			</pre>
 			<p>
-				<canvas id="canvas" width="800" height="600"></canvas>
-				<script>
-				var canvasContext = document.getElementById("canvas").getContext("2d");
-				canvasContext.fillRect(250, 25, 150, 100);
+				<table class="table">
+					<tr>
+						<th>Email</th>
+						<th>Password</th>
+					</tr>
 
-				canvasContext.beginPath();
-				canvasContext.arc(450, 110, 100, Math.PI * 1/2, Math.PI * 3/2);
-				canvasContext.lineWidth = 15;
-				canvasContext.lineCap = 'round';
-				canvasContext.strokeStyle = 'rgba(255, 127, 0, 0.5)';
-				canvasContext.stroke();
-				</script>
-			</p>
-			
-
-		</section>
-
-
-		<section class="slide">
-			<h2>Animation</h2>
-			<p>
-				<canvas id="canvas2" width="800" height="600"></canvas><br>
-				<input id="canvas2slider" type="range" min="1" max="100" value="1" />
-				<button id="canvas2start">Start/Stop</button>
-				<script>
-
-
-				(function(){
-					var slider = document.getElementById("canvas2slider");
-					var canvas = document.getElementById("canvas2");
-					var ctx = canvas.getContext("2d");
-					var centerX = canvas.width / 2;
-					var centerY = canvas.height / 2;
-					var radius = 70;
-					var direction = 1;
-					var speed = slider.value;
-					var isStarted = false;
-					var interval = null;
-
-					function draw(){
-						ctx.fillStyle = 'white';
-						ctx.fillRect(0,0,canvas.width,canvas.height);
-
-						ctx.beginPath();
-						ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
-						ctx.fillStyle = 'green';
-						ctx.fill();
-						ctx.lineWidth = 5;
-						ctx.strokeStyle = '#003300';
-						ctx.stroke();
-					}
-
-					function loop(){
-
-						speed = slider.value;
-
-						if(centerX+radius>canvas.width){
-							direction = -1;
-						}else if(centerX-radius<0){
-							direction = 1;
-						}
-						centerX+=speed*direction;
-						draw();
-					}
-					document.getElementById('canvas2start').addEventListener('click',function(){
-						if(isStarted){
-							clearInterval(interval);
-						}else{
-							interval = setInterval(loop,1000/30);
-						}
-						isStarted=!isStarted;
-						
-					});
-				}())
-				</script>
-			</p>
-
-
-		</section>
-
-
-
-		<section class="slide">
-			<h1><span style="color:red">CSS</span>3</h1>
-		</section>
-
-		<section class="slide">
-			<h1 style="text-align:left">
-				<span style="color:red">C</span>ascading<br>
-				<span style="color:red">S</span>tyle<br>
-				<span style="color:red">S</span>heet<br>
-			</h1>
-			<h1 class="slide" style="position: absolute;top: 50%;text-align: right;font-size: 20em;color: red;">3</h1>
-		</section>
-
-		<section class="slide">
-			<h2>Without CSS</h2>
-			<img src="img/nocss.png">
-		</section>
-
-		<section class="slide">
-			<h2>With CSS</h2>
-			<img src="img/css.png">
-		</section>
-
-		<section class="slide">
-			<h2>Borders</h2>
-			<p style="border: 2px solid;padding:10px;border-radius: 25px;">border-radius: 25px;</p>
-			<p style="border: 2px solid;padding:10px;box-shadow: 10px 10px 5px #888888;">box-shadow: 10px 10px 5px #888888;</p>
-			<p style="border: 20px solid;padding:10px;border-image: url(img/border.png) 30 30 round;">border-image: url(img/border.png) 30 30 round;</p>
-		</section>
-
-
-		<section class="slide">
-			<h2>Background Gradient</h2>
-			<p style="background: linear-gradient(red, blue);height:100px;color:#fff">
-				background: linear-gradient(red, blue);
-			</p>
-			<p style="background: linear-gradient(red, yellow,green,black);height:100px;color:#fff">
-				background: linear-gradient(red, yellow,green,black);
-			</p>
-			<p style="background: linear-gradient(45deg, red, yellow,green,black);height:100px;">
-				background: linear-gradient(45deg, red, yellow,green,black);
+					<tr>
+						<td>someguy@example.com</td>
+						<td>O2jxMx3eyqE=</td>
+					</tr>
+					<tr>
+						<td>...</td>
+						<td>...</td>
+					</tr>
+				</table>
 			</p>
 		</section>
 
 		<section class="slide">
-
-			<h2>Text Shadow</h2>
-			<p style="text-shadow: 5px 5px 5px #FF0000;">
-				text-shadow: 5px 5px 5px #FF0000;
-			</p>
+			<h2>Problems</h2>
+			<ol>
+				<li class="slide">Keys can be stolen</li>
+				<li class="slide">identical password will have the same encrypted form</li>
+			</ol>
 		</section>
 
 		<section class="slide">
-			<h2>Transforms</h2>
-			<p>
-				<div style="transform: rotate(30deg);top: 200px;position: absolute;left: 100px;background: #9EB2FF;width: 200px;height: 200px;padding: 10px;">transform: rotate(30deg);</div>
-				<div style="transform: skew(30deg,20deg);top: 200px;position: absolute;left: 500px;background: #9EB2FF;width: 200px;height: 200px;padding: 10px;">transform: skew(30deg,20deg);</div>
-			</p>
+			<h2>Example</h2>
+				<table class="table">
+					<tr>
+						<th>Email</th>
+						<th>Password</th>
+						<th>Hint</th>
+					</tr>
+
+					<tr>
+						<td>michael@example.com</td>
+						<td>O2jxMx3eyqE=</td>
+						<td>Song</td>
+					</tr>
+					<tr>
+						<td>sam@example.com</td>
+						<td>O2jxMx3eyqE=</td>
+						<td>Michael Jackson</td>
+					</tr>
+					<tr>
+						<td>bob@example.com</td>
+						<td>O2jxMx3eyqE=</td>
+						<td>Horror</td>
+					</tr>
+					<tr>
+						<td>steve@example.com</td>
+						<td>O2jxMx3eyqE=</td>
+						<td>Scary michael</td>
+					</tr>
+				</table>
 		</section>
 
-
 		<section class="slide">
-			<h2>Transition</h2>
+			<h2>The naive way #3 - Hashing</h2>
+			<h3>Register</h3>
 			<pre>
-#transitionDemo{
-	width: 200px;
-	height: 200px;
-	transition: transform 1s,height 2s, width 3s,background 1s;
-
-}
-#transitionDemo:hover{
-	width: 500px;
-	height: 500px;
-	transform: rotate(45deg);
-	background-color: #f00;
-}
+user = User()
+user.email = 'someguy@example.com'
+user.password = hash('qwer1234')
+user.save()
 			</pre>
-			<p id="transitionDemo" style="padding: 10px;">
-				Hover here
-			</p>
-			<style type="text/css">
-				#transitionDemo{
-					width: 200px;
-					height: 200px;
-					background: #9EB2FF;
-					transition: transform 1s,height 2s, width 3s,background-color 2s, color 2s;
-
-				}
-				#transitionDemo:hover{
-					width: 500px;
-					height: 500px;
-					transform: rotate(45deg);
-					background: #FFB29E;
-					color:#fff;
-				}
-			</style>
-		</section>
-
-		<section class="slide">
-			<h2>Multiple Columns</h2>
+			<h3>Login</h3>
 			<pre>
--webkit-column-count: 3; /* Chrome, Safari, Opera */
--moz-column-count: 3; /* Firefox */
-column-count: 3;
+if user.password == hash(passwordInput)
+    return True
+else
+    return False
 			</pre>
-			<p style="column-count:3;-webkit-column-count: 3; -moz-column-count: 3;">
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sed ex vel ligula convallis lobortis. Nullam vulputate dapibus purus vel scelerisque. Fusce consequat, nisi eu aliquet cursus, eros libero fringilla velit, ut hendrerit dui lacus id libero. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in placerat mauris, sit amet mattis dui. Nunc eu consectetur ante. Fusce tortor dolor, tincidunt quis ante vitae, luctus posuere lorem. Nam vel ante lorem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nullam pulvinar aliquam tortor eget blandit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nullam fringilla congue accumsan. Maecenas elementum dapibus ex, vitae sagittis metus pellentesque id. Morbi et congue mauris. Sed finibus est non tortor aliquam, eu malesuada sem consequat.
+			<p>
+				<table class="table">
+					<tr>
+						<th>Email</th>
+						<th>Password</th>
+					</tr>
 
-				In faucibus lobortis dui sed lacinia. Fusce a odio at nisi interdum tempus. In nibh nisl, gravida et nisi eu, sagittis blandit magna. Nullam sed eleifend orci. Nam bibendum lectus ac tortor pharetra, vitae placerat tortor varius. Suspendisse potenti. Maecenas lobortis consectetur purus, at tristique magna venenatis id.
+					<tr>
+						<td>someguy@example.com</td>
+						<td>9a3bdc603c940a18467d167af15d4c8c</td>
+					</tr>
+					<tr>
+						<td>...</td>
+						<td>...</td>
+					</tr>
+				</table>
+			</p>
+		</section>
 
-				Fusce maximus velit nisl, non efficitur augue condimentum et. Sed scelerisque quam ante, in finibus ex blandit eget. Cras a odio nec lorem tempus mollis et nec diam. Donec lobortis erat sed elit vulputate, eu commodo quam facilisis. In vehicula commodo erat, ut blandit enim varius eget. Aenean ligula est, convallis et iaculis ac, interdum vel lectus. Nullam accumsan mauris eu maximus cursus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vestibulum pulvinar purus at velit gravida tincidunt. Aenean posuere lacinia pellentesque. Nam at vulputate urna. Etiam volutpat dolor nec leo elementum consequat. Aenean semper purus commodo malesuada mollis.
 
-				Donec rhoncus, magna id vehicula viverra, est nisl maximus arcu, id pretium arcu metus pulvinar metus. Nam auctor nibh et diam rutrum, consectetur ullamcorper magna imperdiet. Pellentesque quis euismod est. Ut venenatis vehicula dui, malesuada rhoncus eros condimentum dictum. Nullam mattis, ex ut pulvinar laoreet, metus dolor congue mi, sit amet luctus metus nisl in lacus. Sed feugiat metus et dapibus bibendum. Nullam gravida ligula lorem, at scelerisque mauris rutrum vitae. Praesent quis lobortis mauris.
+		<section class="slide">
+			<h2>Problems</h2>
+			<ol>
+				<li class="slide">can be cracked using brute force</li>
+				<li class="slide">can be cracked using hash tables/rainbow tables</li>
+				<li class="slide">identical password will have the same hash</li>
+			</ol>
+		</section>
 
-				Vestibulum scelerisque libero massa. Mauris varius nisl sit amet semper scelerisque. Cras ac nulla eget tellus lobortis facilisis eget in augue. Quisque rutrum efficitur pharetra. Sed congue massa non felis dapibus, tincidunt laoreet nulla elementum. Nunc dolor augue, venenatis in dictum ac, aliquet quis risus. Mauris vitae elementum ante. Phasellus tellus arcu, semper vitae neque eget, ornare dictum ex. Curabitur porta, sapien eu tincidunt pellentesque, arcu erat sollicitudin nibh, eget efficitur ante ante sit amet mauris. Vivamus et dolor vitae enim tincidunt scelerisque. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam pellentesque sapien at turpis vulputate, quis scelerisque lorem blandit. Maecenas sed est in orci sagittis maximus sed eu magna. Aliquam erat volutpat.
+		<section class="slide">
+			<h2>Safer way - Hash and Salt</h2>
+			<h3>Register</h3>
+			<pre>
+user = User()
+user.salt = random_string()
+user.email = 'someguy@example.com'
+user.password = hash('qwer1234'+user.salt)
+user.save()
+			</pre>
+			<h3>Login</h3>
+			<pre>
+if user.password == hash(passwordInput+user.salt)
+    return True
+else
+    return False
+			</pre>
+			<p>
+				<table class="table">
+					<tr>
+						<th>Email</th>
+						<th>Password</th>
+					</tr>
+
+					<tr>
+						<td>someguy@example.com</td>
+						<td>ZKeymuvG9HtbaTdlZ6KDA.WT2LjfrXaazaAZa7QX7tjcnY/wxvHB6</td>
+					</tr>
+					<tr>
+						<td>someguy.with.same.password@example.com</td>
+						<td>I.2rNtKY7K9PXBldLSl94uWAUMwUIf1T8i.BtiNWnkNvZEhC9BSsq</td>
+					</tr>
+					<tr>
+						<td>...</td>
+						<td>...</td>
+					</tr>
+				</table>
 			</p>
 		</section>
 
 		<section class="slide">
-			<h2>Resources</h2>
-			<ul>
-				<li><a target="_blank" href="http://www.w3schools.com/">Documentation</a></li>
-				<li><a target="_blank" href="http://html5demos.com/">Demo</a></li>
-				<li><a target="_blank" href="http://www.html5rocks.com/">Advanced Tutorials</a></li>
-				<li><a target="_blank" href="http://www.html5gamedevelopment.com/">HTML 5 Game Development</a></li>
-				<li><a target="_blank" href="https://www.google.com/doubleclick/studio/swiffy/">Convert Flash Animation To HTML 5</a></li>
-			</ul>
+			<h2>Pros</h2>
+			<ol>
+				<li class="slide">you cannot decrypt it</li>
+				<li class="slide">same passwords have different hashes
+					<ul>
+						<li class="slide">Cannot be guessed</li>
+						<li class="slide">Cannot reverse using hash/rainbow tables</li>
+					</ul>
+				</li>
+				
+			</ol>
 		</section>
 
-
 		<section class="slide">
-			<h1>Thank you!</h1>
+			<h1>Thank you</h1>
 		</section>
 
 		<!-- End slides. -->
